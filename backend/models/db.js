@@ -9,8 +9,8 @@ const connectDB = async () => {
             authSource: 'admin',
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useFindAndModify: false,
-            useCreateIndex: true,
+            //useFindAndModify: false,
+            //useCreateIndex: true,
             connectTimeoutMS: 5000,
             socketTimeoutMS: 20000,
             heartbeatFrequencyMS: 10000,
@@ -19,7 +19,7 @@ const connectDB = async () => {
         })
         console.log(' Mongo DB is connected ! ')
     } catch (err) {
-        console.error(' Mongo DB error connection : err.message')
+        console.error(' Mongo DB error connection :', err.message)
         process.exit(1)
     }
 }
