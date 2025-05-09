@@ -2,9 +2,10 @@ import bcrypt from 'bcrypt'
 import User from '../models/User.js'
 
 export const signUp = async (req, res) => {
-    const hashPassword = bcrypt.hash(req.body.password, 10)
-    try{
-       
+
+    const hashPassword = await bcrypt.hash(req.body.password, 10)
+
+    try{   
         const user = new User({
             pseudo: req.body.pseudo,
             name: req.body.name,
@@ -14,9 +15,15 @@ export const signUp = async (req, res) => {
             modifiedAt: req.body.modifiedAt,
             role: req.body.role,
         })
+        
         const savedUser = await user.save()
-        res.status(201).json(savedUser)
+        console.log("saved user to mongo: ", savedUser)
+        const {password:_, ...userWithoutPassword} = savedUser.toObject()
+        console.log("savedUserToObject : ", savedUser.toObject())
+        console.log("userWithoutPassword : ", userWithoutPassword)
+        //res.status(201).json(savedUser)
+        res.status(201).json(userWithoutPassword)
     } catch (err) {
-        res.status(400).json({error : err.message})
+        res.status(500).json({error : err.message})
     }
 }
